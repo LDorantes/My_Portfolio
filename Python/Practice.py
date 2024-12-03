@@ -19,3 +19,12 @@ elif n % 2 == 0 and 6 <= n <= 20:
     print("Weird")
 elif n % 2 == 0 and n > 20:
     print("Not Weird")
+# ---------------------------------------
+# functions
+
+def is_leap(year):
+    return (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0)
+
+
+year = int(input())
+print(is_leap(year))
