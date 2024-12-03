@@ -54,7 +54,7 @@ Each project has its own folder containing:
 Para explorar un proyecto en detalle / To explore a project in detail:
 
 ```
-cd nombre-del-proyecto / project-name
+cd project-name
 ```
 
 ## Contacto / Contact
