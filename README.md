@@ -5,11 +5,17 @@ Welcome to my projects portfolio. Here, you'll find a collection of the projects
 
 ## Tabla de Contenidos / Table of Contents
 Descripción General / Overview
+
 Tecnologías y Herramientas / Technologies and Tools
+
 Proyectos / Projects
+
 Contacto / Contact
+
 Descripción General / Overview
+
 Este repositorio contiene proyectos que abarcan áreas como:
+
 This repository includes projects that cover areas such as:
 
 - Desarrollo web / Web development
