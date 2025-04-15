@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /guests/{guestId} {
+      allow read: if true; // Todos pueden leer
+      allow write: if request.auth != null; // Solo usuarios autenticados pueden escribir
+    }
+    match /events/{eventId} {
+      allow read, write: if request.auth != null; // Solo autenticados pueden leer/escribir eventos
+    }
+  }
+}

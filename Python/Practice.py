@@ -28,3 +28,28 @@ def is_leap(year):
 
 year = int(input())
 print(is_leap(year))
+
+#---------------------------------------------------------------
+
+if __name__ == '__main__':
+    n = int(input())
+    s = set(map(int, input().split()))
+    num_commands = int(input())
+
+    for _ in range(num_commands):
+        command = input().split()
+        if command[0] == "pop":
+            if s:
+                s.pop()
+        elif command[0] == "remove":
+            value = int(command[1])
+            if value in s:
+                s.remove(value)
+        elif command[0] == "discard":
+            value = int(command[1])
+            s.discard(value)
+    
+    print("Conjunto final:", s)
+
+    print("Suma final:", sum(s))
+

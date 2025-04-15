@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boda de Andy & Leo</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="./css/output.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 data-lang="es">Andy & Leo</h1>
+      <h1 data-lang="en" style="display: none;">Andy & Leo</h1>
+      <button id="toggleLang">EN</button>
+    </header>
+
+    <section class="welcome">
+      <p data-lang="es">¡Nos casamos! Estás cordialmente invitado a compartir este día tan especial con nosotros.</p>
+      <p data-lang="en" style="display: none;">We're getting married! You are warmly invited to join us on our special day.</p>
+    </section>
+
+    <section> 
+      <div id="guest-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+        <!-- Los invitados se cargarán aquí -->
+      </div>
+      <form id="rsvp-form" class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow-xl">
+        <h2 class="text-2xl font-bold mb-4">RSVP</h2>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Nombre">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="attending">¿Asistirás?</label>
+          <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="attending">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="submitRSVP()">
+          Enviar RSVP
+        </button>
+      </form>
+    </section>
+
+    <section class="countdown">
+      <p data-lang="es">Faltan:</p>
+      <p data-lang="en" style="display: none;">Countdown:</p>
+      <div id="timer"></div>
+    </section>
+
+
+    <section class="qr">
+      <p data-lang="es">Tu código QR aparecerá aquí:</p>
+      <p data-lang="en" style="display: none;">Your QR code will appear here:</p>
+      <div id="qrContainer">[QR]</div>
+    </section>
+  </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/countdown.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <!-- Firebase App (core) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  
+</body>
+</html>
