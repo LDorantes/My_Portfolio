@@ -1,21 +1,5 @@
-// Importa los módulos necesarios de Firebase
-import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import QRCode from 'qrcode';
-
-// Configuración de Firebase
-const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "andyleos-wedding.firebaseapp.com",
-    projectId: "andyleos-wedding",
-    storageBucket: "andyleos-wedding.appspot.com",
-    messagingSenderId: "TU_MESSAGING_ID",
-    appId: "TU_APP_ID"
-};
-
-// Inicializa Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Usa la instancia global de db definida en index.html
+const db = window.db;
 
 // Obtiene el ID de la URL
 const invitadoID = window.location.pathname.replace("/", "").trim();
@@ -23,6 +7,7 @@ const nombreElement = document.getElementById("nombreInvitado");
 const mensajeElement = document.getElementById("mensajeInvitado");
 const qrContainer = document.getElementById("qrContainer");
 
+// Función para cargar datos de un invitado específico y generar el QR
 async function cargarInvitado(id) {
     if (!id) {
         nombreElement.textContent = "Invitado desconocido";
@@ -59,6 +44,54 @@ async function cargarInvitado(id) {
         console.error("Error:", error);
     }
 }
-export { db };
 
-cargarInvitado(invitadoID);
+// Función para cargar la lista de invitados
+async function loadGuests() {
+    try {
+        const querySnapshot = await getDocs(collection(db, 'invitados'));
+        const guestList = document.getElementById('guest-list');
+        guestList.innerHTML = ''; // Limpiar contenido previo
+        querySnapshot.forEach((doc) => {
+            const guest = doc.data();
+            const div = document.createElement('div');
+            div.className = 'bg-white p-4 rounded shadow';
+            div.innerHTML = `<h2 class="text-xl font-bold">${guest.nombre}</h2><p>${guest.email || 'Sin email'}</p>`;
+            guestList.appendChild(div);
+        });
+    } catch (error) {
+        console.error("Error al cargar invitados:", error);
+        document.getElementById('guest-list').innerHTML = '<p>Error al cargar la lista de invitados.</p>';
+    }
+}
+
+// Función para enviar el RSVP
+window.submitRSVP = async function () {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const attending = document.getElementById('attending').value;
+
+    if (!name || !email) {
+        alert('Por favor, completa todos los campos.');
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, 'rsvps'), {
+            name: name,
+            email: email,
+            attending: attending,
+            timestamp: new Date()
+        });
+        alert('RSVP enviado correctamente');
+        document.getElementById('rsvp-form').reset();
+    } catch (error) {
+        console.error('Error al enviar RSVP:', error);
+        alert('Hubo un error al enviar tu RSVP. Intenta de nuevo.');
+    }
+};
+
+// Ejecuta las funciones al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    cargarInvitado(invitadoID);
+    loadGuests();
+});

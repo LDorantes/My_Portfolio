@@ -1,20 +1,18 @@
-const timer = document.getElementById("timer");
-// Reemplaza con tu fecha de boda
-const weddingDate = new Date("2025-01-04T15:00:00").getTime();
+function countdown() {
+  const weddingDate = new Date('2025-06-15T00:00:00'); // Ajusta la fecha de tu boda aquí
+  const now = new Date();
+  const timeDifference = weddingDate - now;
 
-setInterval(() => {
-  const now = new Date().getTime();
-  const distance = weddingDate - now;
+  const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  const timerElement = document.getElementById('timer');
 
-  if (distance < 0) {
-    timer.innerHTML = "¡Ya es el gran día!";
-    return;
+  if (daysLeft > 0) {
+    timerElement.textContent = `${daysLeft} días`;
+  } else if (daysLeft === 0) {
+    timerElement.textContent = '¡Es hoy!';
+  } else {
+    timerElement.textContent = '¡Ya pasó!';
   }
+}
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hrs = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const min = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const sec = Math.floor((distance % (1000 * 60)) / 1000);
-
-  timer.innerHTML = `${days}d ${hrs}h ${min}m ${sec}s`;
-}, 1000);
+document.addEventListener('DOMContentLoaded', countdown);
