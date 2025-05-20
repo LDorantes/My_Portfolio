@@ -3,19 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To-Do List</title>
-  <link rel="stylesheet" href="/css/styles.css">
+  <title>My To-Do List</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <div class="todo-container">
-    <h1>Mi Lista de Tareas</h1>
+    <div class="header">
+      <h1>To-Do
+        <span id="task-count">(0 pending)</span>
+      </h1>
+      <!-- Theme toggle icon -->
+      <button id="theme-toggle" class="theme-btn" title="Toggle Theme">🌞</button>
+    </div>
     <form id="todo-form">
-      <input type="text" id="todo-input" placeholder="Nueva tarea..." required />
-      <button type="submit">Agregar</button>
+      <input type="text" id="todo-input" placeholder="New task..." required />
+      <select id="priority-select">
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button type="submit">Add</button>
     </form>
+    <input type="text" id="search-input" placeholder="Search tasks..." class="search" />
+    <div class="filters">
+      <button data-filter="all" class="filter-btn active">All</button>
+      <button data-filter="active" class="filter-btn">Active</button>
+      <button data-filter="completed" class="filter-btn">Completed</button>
+    </div>
+    <button id="clear-completed" class="clear-btn">Clear Completed</button>
     <ul id="todo-list"></ul>
   </div>
-
-  <script src="/js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
