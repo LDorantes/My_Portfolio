@@ -1,10 +1,10 @@
 const img = [
-  '/img/photo1.jpg',
-  '/img/photo2.jpg',
-  '/img/photo3.jpg',
-  '/img/photo4.jpg',
-  '/img/photo5.jpg',
-  '/img/photo6.jpg',
+  '/img/image0.jpeg',
+  '/img/image1.jpeg',
+  '/img/image2.jpeg',
+  '/img/image3.jpeg',
+  '/img/image4.jpeg',
+  '/img/image5.jpeg',
 ];
 
 export default function GallerySection() {

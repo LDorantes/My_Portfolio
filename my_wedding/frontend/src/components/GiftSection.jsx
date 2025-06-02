@@ -1,25 +1,24 @@
-const gifts = [
-  {
-    title: 'Cafetera Nespresso',
-    image: '/images/nespresso.jpg',
-    url: 'https://www.amazon.com/dp/B07VCVMC4M',
-    purchased: false,
-  },
-  {
-    title: 'Juego de sábanas',
-    image: '/images/sabanas.jpg',
-    url: 'https://www.liverpool.com.mx/tienda/pdp/juego-de-sabanas/123456',
-    purchased: true,
-  },
-  {
-    title: 'Copa de vino x6',
-    image: '/images/copas.jpg',
-    url: 'https://www.amazon.com/dp/B09WXYZ123',
-    purchased: false,
-  },
-];
+import { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../services/firebase';
 
 export default function GiftSection() {
+  const [gifts, setGifts] = useState([]);
+
+  useEffect(() => {
+    async function fetchGifts() {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'registry_items'));
+        const results = querySnapshot.docs.map(doc => doc.data());
+        setGifts(results);
+      } catch (error) {
+        console.error('Error loading gifts:', error);
+      }
+    }
+
+    fetchGifts();
+  }, []);
+
   return (
     <section id="gifts" className="py-16 px-6 bg-purple-50 text-center">
       <h2 className="text-3xl font-bold text-purple-800 mb-8">Mesa de regalos</h2>
@@ -33,7 +32,7 @@ export default function GiftSection() {
             }`}
           >
             <img
-              src={gift.image}
+              src={gift.img}
               alt={gift.title}
               className="w-full h-48 object-cover rounded mb-4"
             />
