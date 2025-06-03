@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getGuestByToken, saveRSVP } from '../services/guestService';
+import CalendarVisual from './CalendarVisual';
+import MapVisual from './MapVisual';
 
 
 export default function RSVPSection() {
@@ -13,24 +15,18 @@ export default function RSVPSection() {
 
   useEffect(() => {
     async function fetchGuest() {
-      // Aquí iría tu fetch desde Firestore usando el token
-      const fakeData = {
-        name: 'Juan Pérez',
-        maxGuests: 2,
-        companions: ['', ''],
-        confirmed: false,
-      };
-      setGuestData(fakeData);
-      setCompanions(fakeData.companions || []);
+      const data = await getGuestByToken(token);
+      if (data) {
+        setGuestData(data);
+        setCompanions(data.companions || Array(data.maxGuests).fill(""));
+      }
       setLoading(false);
     }
 
-    if (token) {
-      fetchGuest();
-    } else {
-      setLoading(false);
-    }
+    if (token) fetchGuest();
+    else setLoading(false);
   }, [token]);
+
 
   function handleCompanionChange(index, value) {
     const updated = [...companions];
@@ -38,15 +34,49 @@ export default function RSVPSection() {
     setCompanions(updated);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    // Aquí guardarías la respuesta en Firestore
-    setMessage('Gracias por confirmar, ¡nos vemos en la boda!');
+
+    // Limpieza: aseguramos que no haya valores undefined
+    const cleaned = companions.map(c => c ?? "");
+
+    try {
+      await saveRSVP(token, cleaned);
+      setMessage('Gracias por confirmar, ¡nos vemos en la boda!');
+      setGuestData(prev => ({
+        ...prev,
+        confirmed: true
+      }));
+    } catch (error) {
+      console.error("Error al guardar RSVP:", error);
+      setMessage("Hubo un error al confirmar. Intenta más tarde.");
+    }
   }
+
+
 
   if (loading) return <p className="text-center py-10">Cargando...</p>;
 
-  if (!guestData) return <p className="text-center py-10">Invitación no válida.</p>;
+  if (!guestData) {
+    return <p className="text-center py-10 text-red-600">Invitación no válida.</p>;
+  }
+
+  if (guestData.confirmed) {
+    return (
+      <section className="py-16 px-6 bg-purple-50 text-center">
+        <h2 className="text-3xl font-bold text-purple-800 mb-4">Confirmación registrada</h2>
+        <p className="text-lg text-green-600">Ya has confirmado tu asistencia. ¡Gracias!</p>
+        {message && (
+          <div className="mt-6">
+            <p className="text-green-600 font-medium mb-4">{message}</p>
+            <CalendarVisual />
+            <MapVisual />
+          </div>
+        )}
+      </section>
+    );
+  }
+
 
   return (
     <section className="py-16 px-6 bg-purple-50 text-center">
