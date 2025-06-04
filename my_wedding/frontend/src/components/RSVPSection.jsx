@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getGuestByToken, saveRSVP } from '../services/guestService';
 import CalendarVisual from './CalendarVisual';
 import MapVisual from './MapVisual';
-
+import { useConfirmed } from '../context/ConfirmedContext';
 
 export default function RSVPSection() {
   const [searchParams] = useSearchParams();
@@ -12,6 +12,7 @@ export default function RSVPSection() {
   const [loading, setLoading] = useState(true);
   const [companions, setCompanions] = useState([]);
   const [message, setMessage] = useState('');
+  const { confirmed, setConfirmed } = useConfirmed();
 
   useEffect(() => {
     async function fetchGuest() {
@@ -19,14 +20,14 @@ export default function RSVPSection() {
       if (data) {
         setGuestData(data);
         setCompanions(data.companions || Array(data.maxGuests).fill(""));
+        if (data.confirmed) setConfirmed(true);
       }
       setLoading(false);
     }
 
     if (token) fetchGuest();
     else setLoading(false);
-  }, [token]);
-
+  }, [token, setConfirmed]);
 
   function handleCompanionChange(index, value) {
     const updated = [...companions];
@@ -36,8 +37,6 @@ export default function RSVPSection() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    // Limpieza: aseguramos que no haya valores undefined
     const cleaned = companions.map(c => c ?? "");
 
     try {
@@ -45,15 +44,14 @@ export default function RSVPSection() {
       setMessage('Gracias por confirmar, ¡nos vemos en la boda!');
       setGuestData(prev => ({
         ...prev,
-        confirmed: true
+        confirmed: true,
       }));
+      setConfirmed(true); // 🔥 Esto es lo nuevo
     } catch (error) {
       console.error("Error al guardar RSVP:", error);
       setMessage("Hubo un error al confirmar. Intenta más tarde.");
     }
   }
-
-
 
   if (loading) return <p className="text-center py-10">Cargando...</p>;
 
@@ -61,7 +59,7 @@ export default function RSVPSection() {
     return <p className="text-center py-10 text-red-600">Invitación no válida.</p>;
   }
 
-  if (guestData.confirmed) {
+  if (guestData.confirmed || confirmed) {
     return (
       <section className="py-16 px-6 bg-purple-50 text-center">
         <h2 className="text-3xl font-bold text-purple-800 mb-4">Confirmación registrada</h2>
@@ -77,11 +75,12 @@ export default function RSVPSection() {
     );
   }
 
-
   return (
     <section className="py-16 px-6 bg-purple-50 text-center">
       <h2 className="text-3xl font-bold text-purple-800 mb-4">Confirmar asistencia</h2>
-      <p className="text-lg mb-6">Hola <strong>{guestData.name}</strong>, puedes asistir con hasta <strong>{guestData.maxGuests}</strong> acompañante(s).</p>
+      <p className="text-lg mb-6">
+        Hola <strong>{guestData.name}</strong>, puedes asistir con hasta <strong>{guestData.maxGuests}</strong> acompañante(s).
+      </p>
 
       <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
         {companions.map((name, index) => (
