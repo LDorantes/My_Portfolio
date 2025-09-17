@@ -1,16 +1,20 @@
 const img = [
-  '/img/image0.jpeg',
-  '/img/image1.jpeg',
-  '/img/image2.jpeg',
-  '/img/image3.jpeg',
-  '/img/image4.jpeg',
-  '/img/image5.jpeg',
+  '/img/6.webp',
+  '/img/7.webp',
+  '/img/10.webp',
+  '/img/15.webp',
+  '/img/22.webp',
+  '/img/16.webp',
+  '/img/26.webp',
+  '/img/27.webp',
+  '/img/30.webp',
 ];
 
 export default function GallerySection() {
   return (
     <section className="py-16 px-6 bg-white text-center" id="gallery">
       <h2 className="text-3xl font-bold text-purple-800 mb-8">Galería</h2>
+      <div>Momentos inolvidables que queremos compartir</div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
         {img.map((src, index) => (

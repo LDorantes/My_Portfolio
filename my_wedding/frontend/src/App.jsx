@@ -1,26 +1,57 @@
-import { useState } from 'react';
-import EnvelopeIntro from './components/EnvelopeIntro';
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import EnvelopeIntro from "./components/EnvelopeIntro";
 
-import CountdownSection from './components/Countdown';
-import VerseSection from './components/VerseSection';
-import BlessingsSection from './components/BlessingsSection';
-import AgendaSection from './components/AgendaSection';
-import GallerySection from './components/GallerySection';
-import RSVPSection from './components/RSVPSection';
-import GiftSection from './components/GiftSection';
-import BlessingsWall from './components/BlessingsWall';
-import MusicPlayer from './components/MusicPlayer';
-import Footer from './components/Footer';
+import CountdownSection from "./components/Countdown";
+import VerseSection from "./components/VerseSection";
+import BlessingsSection from "./components/BlessingsSection";
+import AgendaSection from "./components/AgendaSection";
+import GallerySection from "./components/GallerySection";
+import RSVPSection from "./components/RSVPSection";
+import GiftSection from "./components/GiftSection";
+import BlessingsWall from "./components/BlessingsWall";
+import MusicPlayer from "./components/MusicPlayer";
+import Footer from "./components/Footer";
+
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "./services/firebase";
 
 function App() {
   const [showContent, setShowContent] = useState(false);
+  const [guestName, setGuestName] = useState(null);
+
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get("token");
+    if (!token) return;
+
+    const fetchGuest = async () => {
+      const guestsRef = collection(db, "guests");
+      const q = query(guestsRef, where("token", "==", token));
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        const guestData = snapshot.docs[0].data();
+        setGuestName(guestData.name);
+      }
+    };
+
+    fetchGuest();
+  }, []);
 
   return (
     <div className="scroll-smooth min-h-screen bg-white">
       {!showContent ? (
-        <EnvelopeIntro onOpen={() => setShowContent(true)} />
+        <EnvelopeIntro
+          onReveal={() => setShowContent(true)}
+          guestName={guestName}
+        />
       ) : (
-        <>
+        <motion.div
+          id="invitation-wrapper"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
           <section id="countdown">
             <CountdownSection />
           </section>
@@ -47,7 +78,7 @@ function App() {
           </section>
           <MusicPlayer />
           <Footer />
-        </>
+        </motion.div>
       )}
     </div>
   );

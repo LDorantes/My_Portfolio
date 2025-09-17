@@ -46,7 +46,7 @@ export default function VerseSection() {
 
       {/* Imagen decorativa pareja opcional */}
       <motion.img
-        src="/img/pareja.png"
+        src="/img/3.webp"
         alt="Pareja"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
