@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import sealIntact from "../assets/seal-intact1.png";
 import sealBroken from "../assets/seal-broken1.png";
 import envelopeTexture from "../assets/paper-texture.png";
@@ -12,84 +12,81 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
     if (opened) return;
 
     setBroken(true);
-
-    // Animación de romper sello → abrir solapa
     setTimeout(() => {
       setOpened(true);
-
-      // Mostrar saludo → después revelar invitación
-      setTimeout(() => {
-        onReveal();
-        document
-          .getElementById("invitation-wrapper")
-          ?.scrollIntoView({ behavior: "smooth" });
-      }, 2500); // damos más tiempo antes de mostrar invitación
-    }, 800);
+      onReveal();
+      document.getElementById("rsvp")?.scrollIntoView({ behavior: "smooth" });
+    }, 1800);
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 to-white">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-        className="relative w-[400px] h-[280px] bg-white rounded-lg shadow-2xl overflow-hidden"
-        style={{
-          backgroundImage: `url(${envelopeTexture})`,
-          backgroundSize: "cover",
-        }}
-      >
-        {/* Solapa superior */}
-        <motion.div
-          initial={false}
-          animate={{ rotateX: opened ? -120 : 0 }}
-          transition={{ duration: 1, ease: 'easeInOut' }}
-          className="absolute top-0 left-0 w-full h-1/2 bg-white origin-top z-20"
-          style={{
-            clipPath: 'polygon(70% 0, 100% 0, 50% 100%)', // Triángulo invertido como la solapa real
-            transformStyle: 'preserve-3d',
-            backgroundImage: `url(${envelopeTexture})`,
-            backgroundSize: 'cover',
-          }}
-        />
+      <div className="relative w-[400px] h-[260px]">
+        <svg width="400" height="260" viewBox="0 0 400 260">
+          <defs>
+            {/* Textura */}
+            <pattern id="paper" patternUnits="userSpaceOnUse" width="400" height="260">
+              <image href={envelopeTexture} x="0" y="0" width="400" height="260" />
+            </pattern>
 
+            {/* Gradiente para sombra */}
+            <linearGradient id="flapShade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(0,0,0,0.15)" />
+              <stop offset="100%" stopColor="rgba(0,0,0,0)" />
+            </linearGradient>
+          </defs>
 
-        {/* Parte inferior */}
-        <div
-          className="absolute bottom-0 left-0 w-full h-1/2 bg-white"
-          style={{
-            clipPath: "polygon(0% 0%, 100% 0%, 50% 100%)",
-            backgroundImage: `url(${envelopeTexture})`,
-            backgroundSize: "cover",
-          }}
-        />
+          {/* Base rectangular del sobre */}
+          <rect x="0" y="0" width="400" height="260" fill="url(#paper)" />
 
-        {/* Texto: aparece desde dentro */}
-        <AnimatePresence>
-          {opened && (
-            <motion.div
-              initial={{ opacity: 0, y: 80 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
-              className="absolute top-1/3 w-full text-center z-10"
-            >
-              {guestName ? (
-                <p className="text-purple-700 text-lg font-medium mb-2">
-                  ¡Bienvenid@, {guestName}!
-                </p>
-              ) : (
-                <p className="text-purple-700 text-lg font-medium mb-2">
-                  ¡Bienvenid@ a nuestra boda!
-                </p>
-              )}
-              <h1 className="text-3xl font-bold text-purple-800">Andy & Leo</h1>
-              <p className="text-sm text-purple-600 mt-1">
-                27 de diciembre, 2025
-              </p>
-            </motion.div>
+          {/* Solapas laterales */}
+          <polygon points="0,0 200,130 0,260" fill="url(#paper)" />
+          <polygon points="400,0 200,130 400,260" fill="url(#paper)" />
+
+          {/* Solapa inferior */}
+          <polygon points="0,260 200,130 400,260" fill="url(#paper)" />
+
+          {/* Solapa superior animada */}
+          <motion.polygon
+            points="0,0 200,130 400,0"
+            fill="url(#paper)"
+            stroke="#c0c0c0"
+            strokeWidth="1"
+            initial={{ rotateX: 0, transformOrigin: "200px 130px" }}
+            animate={{ rotateX: opened ? -180 : 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+          />
+
+          {/* Sombra en la solapa */}
+          {!opened && (
+            <polygon points="0,0 200,130 400,0" fill="url(#flapShade)" />
           )}
-        </AnimatePresence>
+        </svg>
+
+        {/* Texto de saludo */}
+        {guestName && opened && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="absolute top-6 w-full text-center text-purple-700 text-lg font-medium z-30"
+          >
+            ¡Bienvenida, {guestName}!
+          </motion.div>
+        )}
+
+        {/* Texto de nombres */}
+        {opened && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.9 }}
+            className="absolute top-1/3 w-full text-center"
+          >
+            <h1 className="text-2xl font-bold text-purple-800">Andy & Leo</h1>
+            <p className="text-sm text-purple-600">27 de diciembre, 2025</p>
+          </motion.div>
+        )}
 
         {/* Sello */}
         <motion.button
@@ -102,17 +99,13 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
             key={broken ? "broken" : "intact"}
             src={broken ? sealBroken : sealIntact}
             alt="Sello"
-            initial={{ rotate: 0, scale: 1 }}
-            animate={{
-              rotate: broken ? 15 : 0,
-              scale: broken ? 0.8 : 1,
-              opacity: broken ? 0 : 1,
-            }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            initial={{ rotate: 0 }}
+            animate={{ rotate: broken ? 15 : 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="w-full h-full object-contain"
           />
         </motion.button>
-      </motion.div>
+      </div>
     </div>
   );
 }
