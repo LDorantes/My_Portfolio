@@ -7,105 +7,107 @@ import envelopeTexture from "../assets/paper-texture.png";
 export default function EnvelopeIntro({ onReveal, guestName }) {
   const [broken, setBroken] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [showSheet, setShowSheet] = useState(false);
 
   const handleOpen = () => {
     if (opened) return;
 
     setBroken(true);
-    setTimeout(() => {
-      setOpened(true);
-      onReveal();
-      document.getElementById("rsvp")?.scrollIntoView({ behavior: "smooth" });
-    }, 1800);
+
+    // abrir solapa
+    setTimeout(() => setOpened(true), 600);
+
+    // levantar hoja
+    setTimeout(() => setShowSheet(true), 1200);
+
+    // revelar invitación final
+    setTimeout(() => onReveal(), 4000);
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 to-white">
-      <div className="relative w-[400px] h-[260px]">
-        <svg width="400" height="260" viewBox="0 0 400 260">
+      <div
+        className="relative w-[400px] h-[280px]"
+        style={{ perspective: "1000px" }}
+      >
+        <svg
+          width="400"
+          height="280"
+          viewBox="0 0 400 280"
+          xmlns="http://www.w3.org/2000/svg"
+          className="relative z-10"
+        >
           <defs>
-            {/* Textura */}
-            <pattern id="paper" patternUnits="userSpaceOnUse" width="400" height="260">
-              <image href={envelopeTexture} x="0" y="0" width="400" height="260" />
+            <pattern id="paper" patternUnits="userSpaceOnUse" width="400" height="280">
+              <image href={envelopeTexture} x="0" y="0" width="400" height="280" />
             </pattern>
-
-            {/* Gradiente para sombra */}
-            <linearGradient id="flapShade" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgba(0,0,0,0.15)" />
-              <stop offset="100%" stopColor="rgba(0,0,0,0)" />
-            </linearGradient>
           </defs>
 
-          {/* Base rectangular del sobre */}
-          <rect x="0" y="0" width="400" height="260" fill="url(#paper)" />
+          {/* Base */}
+          <rect x="0" y="40" width="400" height="240" fill="url(#paper)" />
 
           {/* Solapas laterales */}
-          <polygon points="0,0 200,130 0,260" fill="url(#paper)" />
-          <polygon points="400,0 200,130 400,260" fill="url(#paper)" />
+          <polygon points="0,40 200,160 0,280" fill="url(#paper)" />
+          <polygon points="400,40 200,160 400,280" fill="url(#paper)" />
 
           {/* Solapa inferior */}
-          <polygon points="0,260 200,130 400,260" fill="url(#paper)" />
+          <polygon points="0,280 200,160 400,280" fill="url(#paper)" />
 
-          {/* Solapa superior animada */}
+          {/* Solapa superior (animada dentro del mismo SVG) */}
           <motion.polygon
-            points="0,0 200,130 400,0"
+            points="0,40 200,160 400,40"
             fill="url(#paper)"
             stroke="#c0c0c0"
             strokeWidth="1"
-            initial={{ rotateX: 0, transformOrigin: "200px 130px" }}
-            animate={{ rotateX: opened ? -180 : 0 }}
+            style={{
+              transformOrigin: "200px 40px",
+              transformStyle: "preserve-3d",
+            }}
+            initial={{ rotateX: 180 }}      // empieza abierta
+            animate={{ rotateX: 0 }}        // baja a cerrado
             transition={{ duration: 1.2, ease: "easeInOut" }}
           />
 
-          {/* Sombra en la solapa */}
-          {!opened && (
-            <polygon points="0,0 200,130 400,0" fill="url(#flapShade)" />
-          )}
+
         </svg>
 
-        {/* Texto de saludo */}
-        {guestName && opened && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="absolute top-6 w-full text-center text-purple-700 text-lg font-medium z-30"
-          >
-            ¡Bienvenida, {guestName}!
-          </motion.div>
-        )}
-
-        {/* Texto de nombres */}
-        {opened && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.9 }}
-            className="absolute top-1/3 w-full text-center"
-          >
-            <h1 className="text-2xl font-bold text-purple-800">Andy & Leo</h1>
-            <p className="text-sm text-purple-600">27 de diciembre, 2025</p>
-          </motion.div>
-        )}
-
         {/* Sello */}
-        <motion.button
+        <motion.div
           onClick={handleOpen}
-          whileTap={{ scale: 0.95 }}
-          disabled={broken}
-          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 w-24 h-24 rounded-full flex items-center justify-center bg-transparent"
+          whileTap={{ scale: .95 }}
+          className="absolute w-16 h-16 z-30 cursor-pointer"
+          style={{
+            top: "140px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "transparent",
+          }}
         >
           <motion.img
             key={broken ? "broken" : "intact"}
             src={broken ? sealBroken : sealIntact}
             alt="Sello"
-            initial={{ rotate: 0 }}
-            animate={{ rotate: broken ? 15 : 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            initial={{ scale: 1 }}
+            animate={{ scale: broken ? 0.9 : 1 }}
+            transition={{ duration: 0.4 }}
             className="w-full h-full object-contain"
           />
-        </motion.button>
+        </motion.div>
+
+        {/* Hoja */}
+        {showSheet && (
+          <motion.div
+            initial={{ y: 160, opacity: 0 }}
+            animate={{ y: 100, opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="absolute left-1/2 -translate-x-1/2 w-[300px] h-[160px] bg-white rounded-lg shadow-md z-20 flex flex-col items-center justify-center text-purple-800"
+          >
+            <h2 className="text-lg">¡Bienvenida, {guestName || "invitado"}!</h2>
+            <h1 className="text-2xl font-bold mt-2">A&L</h1>
+          </motion.div>
+        )}
       </div>
     </div>
   );
+  
 }
