@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import sealIntact from "../assets/seal-intact.png";
 import sealBrokenBottom from "../assets/seal-intact-down.png";
 import sealBrokenTop from "../assets/seal-intact-up.png";
-import sealBack from "../assets/seal-intact-up-back.png"; // 👈 nueva imagen
+import sealBack from "../assets/seal-intact-up-back.png"; // reverso del sello
 import envelopeTexture from "../assets/paper-texture.png";
 
 export default function EnvelopeIntro({ onReveal, guestName }) {
@@ -11,18 +11,18 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
   const [opened, setOpened] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [showBack, setShowBack] = useState(false); // 👈 controla la parte trasera del sello
+  const [showBack, setShowBack] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setSealIsBroken(true), 500);  // Rompe sello
-    setTimeout(() => setOpened(true), 1000);       // Abre solapa
-    setTimeout(() => setShowCard(true), 2000);     // Muestra tarjeta
+    // Secuencia de animación
+    setTimeout(() => setSealIsBroken(true), 500);  // Romper sello
+    setTimeout(() => setOpened(true), 1000);       // Abrir solapa
+    setTimeout(() => setShowCard(true), 2000);     // Mostrar tarjeta
   }, []);
 
   useEffect(() => {
     if (opened) {
-      // Espera a que la animación de apertura termine
-      setTimeout(() => setShowBack(true), 1000); // 👈 cambia al reverso después de abrir
+      setTimeout(() => setShowBack(true), 1000); // Mostrar reverso del sello al abrir
     }
   }, [opened]);
 
@@ -38,15 +38,21 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
         className="relative w-[400px] h-[280px]"
         style={{ perspective: "1000px" }}
       >
+
         {/* ----------- BASE DEL SOBRE (SVG) ----------- */}
-        <svg width="400" height="280" viewBox="0 0 400 280" className="z-0">
+        <svg
+          width="400"
+          height="280"
+          viewBox="0 0 400 280"
+          className="absolute z-0"
+        >
           <defs>
             <pattern id="paper" patternUnits="userSpaceOnUse" width="400" height="280">
               <image href={envelopeTexture} x="0" y="0" width="400" height="280" />
             </pattern>
           </defs>
 
-          {/* Base rectangular */}
+          {/* Cuerpo del sobre */}
           <rect x="0" y="0" width="400" height="280" fill="url(#paper)" stroke="#d4d4d4" strokeWidth="2" />
           <polygon points="0,0 200,140 0,280" fill="url(#paper)" stroke="#d4d4d4" strokeWidth="2" />
           <polygon points="400,0 200,140 400,280" fill="url(#paper)" stroke="#d4d4d4" strokeWidth="2" />
@@ -63,7 +69,7 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
             height: "130px",
             overflow: "visible",
             transformOrigin: "50% 0%",
-            zIndex: 20,
+            zIndex: 10, // debajo de la carta
           }}
           initial={{ rotateX: 0 }}
           animate={{ rotateX: opened ? -180 : 0 }}
@@ -96,7 +102,7 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
               transition={{ duration: 1.2, ease: "easeInOut" }}
             >
               <img
-                src={showBack ? sealBack : sealBrokenTop} // 👈 cambia según el estado
+                src={showBack ? sealBack : sealBrokenTop}
                 alt="Sello roto superior"
                 className="w-full h-full object-contain"
               />
@@ -111,16 +117,25 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
             initial={{ x: -200, y: 0, opacity: 0, scale: 0.95 }}
             animate={
               expanded
-                ? { y: -40, scale: 3.5, opacity: 1 }
-                : { y: -100, opacity: 1, scale: 1 }
+                ? {
+                    y: -40,
+                    scale: 3.5,
+                    opacity: 1,
+                    zIndex: 999, // 👈 pasa encima de TODO cuando se expande
+                  }
+                : {
+                    y: -100,
+                    opacity: 1,
+                    scale: 1,
+                    zIndex: 15, // 👈 debajo del sello cuando está saliendo
+                  }
             }
             transition={{ duration: 1.5, ease: "easeInOut" }}
             className="absolute left-1/2 -translate-x-1/2 w-[400px] h-[180px] bg-white rounded-lg shadow-lg flex flex-col items-center justify-center text-purple-800 cursor-pointer"
             style={{
               bottom: "20px",
-              zIndex: opened ? 25 : 5, // 👈 cuando la solapa se abre, sube encima de ella
+              position: "absolute",
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-              transition: "z-index 0.3s ease",
             }}
           >
             <h2 className="text-lg">¡Bienvenida, {guestName || "invitado"}!</h2>
@@ -132,6 +147,23 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
         )}
 
 
+        {/* ----------- MITAD INFERIOR DEL SELLO ----------- */}
+        {sealIsBroken && (
+          <div
+            className="absolute w-24 h-12 z-20"
+            style={{
+              top: "144px",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            <img
+              src={sealBrokenBottom}
+              alt="Sello roto inferior"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        )}
 
         {/* ----------- SELLO INTACTO ----------- */}
         {!sealIsBroken && (
@@ -143,21 +175,11 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
               transform: "translateX(-50%)",
             }}
           >
-            <img src={sealIntact} alt="Sello intacto" className="w-full h-full object-contain" />
-          </div>
-        )}
-
-        {/* ----------- MITAD INFERIOR DEL SELLO ----------- */}
-        {sealIsBroken && (
-          <div
-            className="absolute w-24 h-12 z-10"
-            style={{
-              top: "144px",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          >
-            <img src={sealBrokenBottom} alt="Sello roto inferior" className="w-full h-full object-contain" />
+            <img
+              src={sealIntact}
+              alt="Sello intacto"
+              className="w-full h-full object-contain"
+            />
           </div>
         )}
       </div>

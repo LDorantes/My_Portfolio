@@ -13,9 +13,11 @@ export default function BlessingsSection() {
         className="absolute top-0 right-0 w-24 opacity-40"
       />
 
-      <h2 className="text-3xl font-bold text-purple-800 mb-6">Con la bendición de Dios, de nuestros padres y padrinos,</h2>
+      <h2 className="text-3xl font-bold text-purple-800 mb-6"></h2>
+      
       <p className="text-gray-600 max-w-xl mx-auto text-lg mb-8">
-         queremos que seas testigo de este amor.
+         Las raíces de nuestro amor se siembran en el ejemplo de quienes nos criaron
+      y florecen con la guía de quienes hoy nos acompañan en este paso.
       </p>
 
       <div className="flex flex-col md:flex-row justify-center gap-10 text-gray-700 font-medium">
@@ -30,7 +32,7 @@ export default function BlessingsSection() {
           <p>Ricardo Dorantes García</p>
         </div>
         <div>
-          <h3 className="text-xl text-purple-700 mb-2 uppercase tracking-wider">Padrinos</h3>
+          <h3 className="text-xl text-purple-700 mb-2 uppercase tracking-wider">Padrinos de velación</h3>
           <p>Esther Ortíz Gomez</p>
           <p>Miguel Ordoñez Ruiz</p>
         </div>

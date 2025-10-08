@@ -19,7 +19,7 @@ export default function RSVPSection() {
       const data = await getGuestByToken(token);
       if (data) {
         setGuestData(data);
-        setCompanions(data.companions || Array(data.maxGuests).fill(""));
+        setCompanions(data.companions || Array(data.maxGuests).fill(''));
         if (data.confirmed) setConfirmed(true);
       }
       setLoading(false);
@@ -37,52 +37,72 @@ export default function RSVPSection() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const cleaned = companions.map(c => c ?? "");
+    const cleaned = companions.map((c) => c ?? '');
 
     try {
       await saveRSVP(token, cleaned);
       setMessage('Gracias por confirmar, ¡nos vemos en la boda!');
-      setGuestData(prev => ({
+      setGuestData((prev) => ({
         ...prev,
         confirmed: true,
       }));
-      setConfirmed(true); // 🔥 Esto es lo nuevo
+      setConfirmed(true);
     } catch (error) {
-      console.error("Error al guardar RSVP:", error);
-      setMessage("Hubo un error al confirmar. Intenta más tarde.");
+      console.error('Error al guardar RSVP:', error);
+      setMessage('Hubo un error al confirmar. Intenta más tarde.');
     }
   }
 
   if (loading) return <p className="text-center py-10">Cargando...</p>;
 
   if (!guestData) {
-    return <p className="text-center py-10 text-red-600">Invitación no válida.</p>;
+    return (
+      <p className="text-center py-10 text-red-600">
+        Invitación no válida.
+      </p>
+    );
   }
 
+  // 🟣 Si ya confirmó (persistente aunque se recargue)
   if (guestData.confirmed || confirmed) {
     return (
       <section className="py-16 px-6 bg-purple-50 text-center">
-        <h2 className="text-3xl font-bold text-purple-800 mb-4">Confirmación registrada</h2>
-        <p className="text-lg text-green-600">Ya has confirmado tu asistencia. ¡Gracias!</p>
+        <h2 className="text-3xl font-bold text-purple-800 mb-4">
+          Confirmación registrada
+        </h2>
+        <p className="text-lg text-green-600 mb-6">
+          Ya has confirmado tu asistencia. ¡Te esperamos pronto!
+        </p>
+
+        {/* Mostrar siempre el mensaje si existe */}
         {message && (
-          <div className="mt-6">
-            <p className="text-green-600 font-medium mb-4">{message}</p>
-            <CalendarVisual />
-            <MapVisual />
-          </div>
+          <p className="text-green-600 font-medium mb-4">{message}</p>
         )}
+
+        {/* 🗓️ Siempre visibles si confirmado */}
+        <div className="mt-8 space-y-8">
+          <CalendarVisual />
+          <MapVisual />
+        </div>
       </section>
     );
   }
 
+  // 🟣 Formulario normal
   return (
     <section className="py-16 px-6 bg-purple-50 text-center">
-      <h2 className="text-3xl font-bold text-purple-800 mb-4">Confirmar asistencia</h2>
+      <h2 className="text-3xl font-bold text-purple-800 mb-4">
+        Confirmar asistencia
+      </h2>
       <p className="text-lg mb-6">
-        Hola <strong>{guestData.name}</strong>, puedes asistir con hasta <strong>{guestData.maxGuests}</strong> acompañante(s).
+        Hola <strong>{guestData.name}</strong>, puedes asistir con hasta{' '}
+        <strong>{guestData.maxGuests}</strong> acompañante(s).
       </p>
 
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-md mx-auto space-y-4"
+      >
         {companions.map((name, index) => (
           <input
             key={index}
@@ -102,7 +122,9 @@ export default function RSVPSection() {
         </button>
       </form>
 
-      {message && <p className="mt-6 text-green-600 font-medium">{message}</p>}
+      {message && (
+        <p className="mt-6 text-green-600 font-medium">{message}</p>
+      )}
     </section>
   );
 }

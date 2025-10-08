@@ -14,7 +14,9 @@ export default function GallerySection() {
   return (
     <section className="py-16 px-6 bg-white text-center" id="gallery">
       <h2 className="text-3xl font-bold text-purple-800 mb-8">Galería</h2>
-      <div>Momentos inolvidables que queremos compartir</div>
+      <p className="text-gray-600 max-w-xl mx-auto text-lg mb-8">
+         Momentos inolvidables que queremos compartir
+      </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
         {img.map((src, index) => (
