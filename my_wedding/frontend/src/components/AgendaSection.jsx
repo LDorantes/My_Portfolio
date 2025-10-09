@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import salon from "../assets/salon.jpg";
+import santuario from "../assets/Santuario.webp";
 
 
 export default function AgendaSection() {
@@ -95,6 +96,13 @@ export default function AgendaSection() {
                           referrerPolicy="no-referrer-when-downgrade"
                           className="absolute top-0 left-0 w-full h-full border-0"
                         ></iframe>
+                        <div className="absolute bottom-3 right-3 w-28 sm:w-36 rounded-lg overflow-hidden border-2 border-white shadow-md transition-transform duration-300 hover:scale-105">
+                          <img
+                            src={santuario}
+                            alt="Vista del salón"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
 
                         {/* Miniatura flotante: solo para el salón */}
                         {isSalon && (
