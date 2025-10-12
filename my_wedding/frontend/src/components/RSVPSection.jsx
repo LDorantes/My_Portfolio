@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getGuestByToken, saveRSVP } from '../services/guestService';
 import CalendarVisual from './CalendarVisual';
-import MapVisual from './MapVisual';
 import { useConfirmed } from '../context/ConfirmedContext';
 
 export default function RSVPSection() {
@@ -81,8 +80,7 @@ export default function RSVPSection() {
 
         {/* 🗓️ Siempre visibles si confirmado */}
         <div className="mt-8 space-y-8">
-          <CalendarVisual />
-          <MapVisual />
+          <CalendarVisual /> 
         </div>
       </section>
     );

@@ -8,6 +8,7 @@ import BlessingsSection from "./components/BlessingsSection";
 import AgendaSection from "./components/AgendaSection";
 import GallerySection from "./components/GallerySection";
 import RSVPSection from "./components/RSVPSection";
+import DressCodeSection from "./components/DressCodeSection";
 import GiftSection from "./components/GiftSection";
 import BlessingsWall from "./components/BlessingsWall";
 import MusicPlayer from "./components/MusicPlayer";
@@ -71,6 +72,7 @@ function App() {
             <RSVPSection />
           </section>
           <section id="gifts">
+            <DressCodeSection/>
             <GiftSection />
           </section>
           <section id="blessings-wall">
