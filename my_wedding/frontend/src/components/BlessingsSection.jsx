@@ -23,18 +23,18 @@ export default function BlessingsSection() {
       <div className="flex flex-col md:flex-row justify-center gap-10 text-gray-700 font-medium">
         <div>
           <h3 className="text-xl text-purple-700 mb-2 uppercase tracking-wider">Padres de la Novia</h3>
-          <p>Ana María Rodriguez Mandujano</p>
           <p>Armando Martinez Aguilar (Q.D.E.P)</p>
+          <p>Ana María Rodriguez Mandujano</p>
         </div>
         <div>
           <h3 className="text-xl text-purple-700 mb-2 uppercase tracking-wider">Padres del Novio</h3>
-          <p>Arcelia Ordoñez Ruíz</p>
           <p>Ricardo Dorantes García</p>
+          <p>Arcelia Ordoñez Ruíz</p>
         </div>
         <div>
           <h3 className="text-xl text-purple-700 mb-2 uppercase tracking-wider">Padrinos de velación</h3>
-          <p>Esther Ortíz Gomez</p>
           <p>Miguel Ordoñez Ruiz</p>
+          <p>Esther Ortíz Gomez</p>
         </div>
       </div>
     </section>

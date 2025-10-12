@@ -28,7 +28,8 @@ export default function Countdown() {
 
   return (
     <section className="py-20 px-6 bg-gradient-to-b from-white to-purple-50 text-center">
-      <h2 className="text-4xl font-bold text-purple-800 mb-4">Faltan...</h2>
+      <h2 className="text-4xl font-bold text-gray-500 mb-4">Tenemos el honor de invitarte a nuestra boda</h2>
+      <h3 className="text-2xl font-bold text-purple-800 mb-4">Dentro de...</h3>
       <div className="flex justify-center gap-8 text-purple-900 text-2xl font-medium">
         <TimeBox value={timeLeft.days} label="Días" />
         <TimeBox value={timeLeft.hours} label="Horas" />

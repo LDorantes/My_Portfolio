@@ -1,13 +1,6 @@
 const img = [
   '/img/6.webp',
-  '/img/7.webp',
-  '/img/10.webp',
-  '/img/15.webp',
-  '/img/22.webp',
-  '/img/16.webp',
-  '/img/26.webp',
-  '/img/27.webp',
-  '/img/30.webp',
+  
 ];
 
 export default function GallerySection() {
