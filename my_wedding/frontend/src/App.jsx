@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "./services/firebase";
 
+
 function App() {
   const [showContent, setShowContent] = useState(false);
   const [guestName, setGuestName] = useState(null);

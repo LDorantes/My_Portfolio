@@ -29,11 +29,11 @@ export default function VerseSection() {
       
 
       {/* Nombres */}
-      <motion.h1
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2 }}
-        className="text-4xl md:text-5xl italic text-gray-800 mt-2"
+     <motion.h1
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.2 }}
+      className="text-7xl font-parisienne text-gray-800 mt-2 tracking-wide"
       >
         Andy & Leo
       </motion.h1>

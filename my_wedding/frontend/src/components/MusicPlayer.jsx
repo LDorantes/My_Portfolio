@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { FaPlay, FaPause, FaVolumeUp } from 'react-icons/fa';
-import track from '../music/Across_the_Stars.mp3';
+import track from '../music/Camilo - La Boda.mp3';
 
 export default function MusicPlayer() {
   const audioRef = useRef(null);

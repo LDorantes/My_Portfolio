@@ -10,6 +10,7 @@ const images = [
   "/img/22.webp",
   "/img/16.webp",
   "/img/26.webp",
+  "/img/family.webp",
 ];
 
 export default function GallerySection() {

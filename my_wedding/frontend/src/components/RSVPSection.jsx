@@ -18,7 +18,9 @@ export default function RSVPSection() {
       const data = await getGuestByToken(token);
       if (data) {
         setGuestData(data);
-        setCompanions(data.companions || Array(data.maxGuests).fill(''));
+        setCompanions(
+          Array.from({ length: data.maxGuests || 0 }, (_, i) => data.companions?.[i] || "")
+        );
         if (data.confirmed) setConfirmed(true);
       }
       setLoading(false);
@@ -62,7 +64,6 @@ export default function RSVPSection() {
     );
   }
 
-  // 🟣 Si ya confirmó (persistente aunque se recargue)
   if (guestData.confirmed || confirmed) {
     return (
       <section className="py-16 px-6 bg-purple-50 text-center">
@@ -73,44 +74,54 @@ export default function RSVPSection() {
           Ya has confirmado tu asistencia. ¡Te esperamos pronto!
         </p>
 
-        {/* Mostrar siempre el mensaje si existe */}
         {message && (
           <p className="text-green-600 font-medium mb-4">{message}</p>
         )}
 
-        {/* 🗓️ Siempre visibles si confirmado */}
         <div className="mt-8 space-y-8">
-          <CalendarVisual /> 
+          <CalendarVisual />
         </div>
       </section>
     );
   }
 
-  // 🟣 Formulario normal
   return (
     <section className="py-16 px-6 bg-purple-50 text-center">
       <h2 className="text-3xl font-bold text-purple-800 mb-4">
         Confirmar asistencia
       </h2>
-      <p className="text-lg mb-6">
-        Hola <strong>{guestData.name}</strong>, puedes asistir con hasta{' '}
-        <strong>{guestData.maxGuests}</strong> acompañante(s).
+
+      {/* 🟣 Mensaje principal */}
+      <p className="text-lg mb-3">
+        Hola <strong>{guestData.name}</strong>
+        {guestData.maxGuests > 0 && (
+          <>
+            , puedes asistir con hasta <strong>{guestData.maxGuests}</strong>{" "}
+            acompañante{guestData.maxGuests > 1 ? "s" : ""}.
+          </>
+        )}
       </p>
 
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-md mx-auto space-y-4"
-      >
-        {companions.map((name, index) => (
-          <input
-            key={index}
-            type="text"
-            value={name}
-            placeholder={`Nombre del acompañante ${index + 1}`}
-            onChange={(e) => handleCompanionChange(index, e.target.value)}
-            className="w-full p-3 rounded border border-gray-300"
-          />
-        ))}
+      {/* 🟣 Mensaje personalizado del anfitrión */}
+      {guestData.message && (
+        <p className="text-sm italic text-gray-600 mb-6 max-w-md mx-auto">
+          {guestData.message}
+        </p>
+      )}
+
+      {/* Formulario solo si hay acompañantes */}
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
+        {guestData.maxGuests > 0 &&
+          companions.map((name, index) => (
+            <input
+              key={index}
+              type="text"
+              value={name}
+              placeholder={`Nombre del acompañante ${index + 1}`}
+              onChange={(e) => handleCompanionChange(index, e.target.value)}
+              className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            />
+          ))}
 
         <button
           type="submit"
@@ -125,4 +136,5 @@ export default function RSVPSection() {
       )}
     </section>
   );
+
 }
