@@ -64,6 +64,7 @@ export default function RSVPSection() {
     );
   }
 
+  // 🟣 Si ya confirmó (persistente aunque se recargue)
   if (guestData.confirmed || confirmed) {
     return (
       <section className="py-16 px-6 bg-purple-50 text-center">
@@ -85,13 +86,14 @@ export default function RSVPSection() {
     );
   }
 
+  // 🟣 Formulario normal
   return (
     <section className="py-16 px-6 bg-purple-50 text-center">
       <h2 className="text-3xl font-bold text-purple-800 mb-4">
         Confirmar asistencia
       </h2>
 
-      {/* 🟣 Mensaje principal */}
+      {/* 🧑‍🤝‍🧑 Mensaje de presentación */}
       <p className="text-lg mb-3">
         Hola <strong>{guestData.name}</strong>
         {guestData.maxGuests > 0 && (
@@ -102,6 +104,14 @@ export default function RSVPSection() {
         )}
       </p>
 
+      {/* 💌 Si no hay acompañantes */}
+      {guestData.maxGuests === 0 && (
+        <p className="text-sm italic text-gray-600 mb-6 max-w-md mx-auto">
+          Tu invitación es individual 💌.  
+          Agradecemos profundamente que nos acompañes en este día tan especial.
+        </p>
+      )}
+
       {/* 🟣 Mensaje personalizado del anfitrión */}
       {guestData.message && (
         <p className="text-sm italic text-gray-600 mb-6 max-w-md mx-auto">
@@ -109,7 +119,7 @@ export default function RSVPSection() {
         </p>
       )}
 
-      {/* Formulario solo si hay acompañantes */}
+      {/* Formulario */}
       <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
         {guestData.maxGuests > 0 &&
           companions.map((name, index) => (
@@ -136,5 +146,4 @@ export default function RSVPSection() {
       )}
     </section>
   );
-
 }

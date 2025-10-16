@@ -138,7 +138,7 @@ export default function EnvelopeIntro({ onReveal, guestName }) {
               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
             }}
           >
-            <h2 className="text-lg">¡Bienvenida, {guestName || "invitado"}!</h2>
+            <h2 className="text-lg">¡Bienvenid@, {guestName || "invitado"}!</h2>
             <h1 className="text-2xl font-bold mt-2">Andy & Leo</h1>
             {!expanded && (
               <p className="text-xs text-gray-500 mt-2">(Haz clic para abrir)</p>
