@@ -14,7 +14,7 @@ export async function getGuestByToken(token) {
 }
 
 // 🔹 Guardar confirmación (sin borrar otros campos)
-export async function saveRSVP(token, companions) {
+export async function saveRSVP(token, companions = [], declined = false) {
   const guestsRef = collection(db, 'guests');
   const q = query(guestsRef, where('token', '==', token));
   const snapshot = await getDocs(q);
@@ -22,16 +22,14 @@ export async function saveRSVP(token, companions) {
   if (!snapshot.empty) {
     const docRef = snapshot.docs[0].ref;
 
-    // Limpieza y normalización del array
-    const cleanedCompanions = companions.map((c) => c?.trim() || "");
-
     await setDoc(
       docRef,
       {
-        companions: cleanedCompanions,
-        confirmed: true,
+        companions,
+        confirmed: !declined,
+        declined,
       },
-      { merge: true } // mantiene los demás campos intactos
+      { merge: true }
     );
   }
 }
