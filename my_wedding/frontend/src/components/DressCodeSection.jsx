@@ -57,8 +57,7 @@ export default function DressCodeSection() {
       >
         Elegancia y estilo.  
         Para ellas, vestidos largos o midi de gala, colores neutros o suaves.  
-        Para ellos, traje completo con camisa y corbata.  
-        Es un evento formal, ¡pero queremos que te sientas cómodo y radiante!
+        Para ellos, Vestimenta formal (camisa y pantalon). Queremos que te sientas cómodo y radiante!
       </motion.p>
 
       {/* 👗 y 🤵 Galería de ejemplos */}

@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { collection, addDoc, getDocs, query, orderBy, serverTimestamp } from 'firebase/firestore';
 import { db } from '../services/firebase';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
+import { motion } from 'framer-motion';
 
 export default function BlessingsWall() {
   const [message, setMessage] = useState('');
-  const [author, setAuthor] = useState(''); // Nuevo campo de nombre
+  const [author, setAuthor] = useState('');
   const [blessings, setBlessings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
@@ -16,7 +14,7 @@ export default function BlessingsWall() {
     async function fetchBlessings() {
       const q = query(collection(db, 'blessings'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
-      const results = querySnapshot.docs.map(doc => doc.data());
+      const results = querySnapshot.docs.map((doc) => doc.data());
       setBlessings(results);
       setLoading(false);
     }
@@ -29,33 +27,23 @@ export default function BlessingsWall() {
 
     await addDoc(collection(db, 'blessings'), {
       message,
-      author: author.trim() || 'Anónimo 💫', // guarda nombre o anónimo
-      createdAt: serverTimestamp()
+      author: author.trim() || 'Anónimo 💫',
+      createdAt: serverTimestamp(),
     });
 
     setMessage('');
     setAuthor('');
-    setSubmitted(prev => !prev);
+    setSubmitted((prev) => !prev);
   }
 
-  const settings = {
-    infinite: true,
-    speed: 8000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 0,
-    cssEase: 'linear',
-    arrows: false,
-    dots: false,
-    pauseOnHover: false,
-  };
-
   return (
-    <section id="blessings-wall" className="py-20 px-6 bg-gradient-to-b from-white to-purple-50 text-center">
+    <section
+      id="blessings-wall"
+      className="py-20 px-6 bg-gradient-to-b from-white to-purple-50 text-center"
+    >
       <h2 className="text-4xl font-bold text-purple-800 mb-6">Deja una bendición</h2>
       <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
-        Escribe un deseo, una bendición o un mensaje especial para los novios.  
+        Escribe un deseo, una bendición o un mensaje especial para los novios.
         Todos los invitados podrán verlo 💌
       </p>
 
@@ -85,30 +73,40 @@ export default function BlessingsWall() {
         </button>
       </form>
 
-      {/* 🌸 Sección de bendiciones */}
-      <div className="mt-16 max-w-3xl mx-auto">
-        <h3 className="text-2xl text-purple-700 font-semibold mb-6">Bendiciones compartidas 💐</h3>
+      {/* 🌸 Sección de bendiciones tipo Instagram swipe */}
+      <div className="mt-16 max-w-3xl mx-auto overflow-x-scroll flex snap-x snap-mandatory gap-6 pb-6">
         {loading ? (
-          <p className="text-gray-500">Cargando mensajes...</p>
+          <p className="text-gray-500 mx-auto">Cargando mensajes...</p>
         ) : blessings.length === 0 ? (
-          <p className="text-gray-500">Aún no hay mensajes. ¡Sé el primero en dejar uno! 🌸</p>
+          <p className="text-gray-500 mx-auto">
+            Aún no hay mensajes. ¡Sé el primero en dejar uno! 🌸
+          </p>
         ) : (
-          <Slider {...settings}>
-            {blessings.map((b, i) => (
-              <div key={i} className="px-6">
-                <div className="bg-white p-6 rounded-xl shadow-lg border border-purple-100 max-w-xl mx-auto">
-                  <p className="text-gray-700 italic text-lg leading-relaxed mb-3">
-                    “{b.message}”
-                  </p>
-                  <p className="text-sm text-purple-600 font-medium">
-                    — {b.author || 'Anónimo 💫'}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </Slider>
+          blessings.map((b, i) => (
+            <motion.div
+              key={i}
+              className="snap-center bg-white p-6 rounded-xl shadow-lg border border-purple-100 mx-auto cursor-grab active:cursor-grabbing flex flex-col justify-center items-center"
+              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                width: '320px', 
+                height: 'auto', 
+                whiteSpace: 'normal',
+                flexShrink: 0,
+              }}
+            >
+              <p className="text-gray-700 italic text-lg leading-relaxed mb-3 text-center break-words">
+                “{b.message}”
+              </p>
+              <p className="text-sm text-purple-600 font-medium">
+                — {b.author || 'Anónimo 💫'}
+              </p>
+            </motion.div>
+          ))
         )}
       </div>
+      <p className="text-sm text-gray-500 mt-4">Desliza para leer más ➡️</p>
     </section>
   );
 }
