@@ -48,18 +48,6 @@ export default function DressCodeSection() {
         Formal
       </motion.p>
 
-      {/* 💬 Descripción breve */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 1 }}
-        className="text-base text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed"
-      >
-        Elegancia y estilo.  
-        Para ellas, vestidos largos o midi de gala, colores neutros o suaves.  
-        Para ellos, Vestimenta formal (camisa y pantalon). Queremos que te sientas cómodo y radiante!
-      </motion.p>
-
       {/* 👗 y 🤵 Galería de ejemplos */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-10 mb-10">
         {/* Vestidos */}
@@ -76,19 +64,6 @@ export default function DressCodeSection() {
           />
         </div>
 
-        {/* Trajes */}
-        <div className="relative w-40 h-56 sm:w-48 sm:h-64 overflow-hidden flex items-center justify-center">
-          <motion.img
-            key={currentSuit}
-            src={suitImages[currentSuit]}
-            alt="Ejemplo de traje formal"
-            className="absolute inset-0 w-full h-full object-contain drop-shadow-md"
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-          />
-        </div>
       </div>
 
       {/* 🚫 Colores reservados */}
