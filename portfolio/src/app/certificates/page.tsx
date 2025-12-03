@@ -13,7 +13,7 @@ const certificates = [
     title: "GitHub Actions Esencial",
     issuer: "LinkedIn Learning",
     year: "2025",
-    file: "/certificates/github-actions.pdf",
+    file: "/certificates/CertificadoDeFinalizacion_GitHub-Actions-esencial.pdf",
     thumbnail: "/certificates/thumbnails/github-actions.png",
   },
   {
