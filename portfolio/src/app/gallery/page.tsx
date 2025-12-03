@@ -1,15 +1,29 @@
 "use client";
 
-import { Gallery, Item } from "react-photoswipe-gallery";
-import "photoswipe/dist/photoswipe.css";
+import Link from "next/link";
 
-const images = [
-  "/gallery/foto1.jpg",
-  "/gallery/foto2.jpg",
-  "/gallery/foto3.jpg",
-  "/gallery/foto4.jpg",
-  "/gallery/foto5.jpg",
-  "/gallery/foto6.jpg",
+const events = [
+  {
+    slug: "graduacion-2025",
+    title: "Graduación 2025",
+    date: "Noviembre 2025",
+    cover: "/gallery/graduacion-2025/cover.png",
+    description: "Un día importante donde celebro el cierre de una etapa académica.",
+  },
+  {
+    slug: "cumple-23",
+    title: "Mi Cumpleaños 23",
+    date: "Marzo 2025",
+    cover: "/gallery/cumple-23/cover.jpg",
+    description: "Celebración con amigos y familia — un recuerdo especial.",
+  },
+  {
+    slug: "viaje-gdl",
+    title: "Viaje a Guadalajara",
+    date: "2024",
+    cover: "/gallery/viaje-gdl/cover.jpg",
+    description: "Un viaje lleno de experiencias, fotos y momentos increíbles.",
+  },
 ];
 
 export default function GalleryPage() {
@@ -22,32 +36,34 @@ export default function GalleryPage() {
       </div>
 
       <h1 className="text-5xl md:text-6xl font-extrabold text-brand-purple text-center mb-16">
-        Galería Fotográfica
+        Galería de Momentos
       </h1>
 
-      <Gallery>
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-          {images.map((src, i) => (
-            <Item
-              key={i}
-              original={src}
-              thumbnail={src}
-              width="1500"
-              height="1000"
-            >
-              {({ ref, open }) => (
-                <img
-                  ref={ref}
-                  onClick={open}
-                  src={src}
-                  alt={`Foto ${i + 1}`}
-                  className="w-full rounded-xl shadow-md hover:shadow-xl cursor-pointer hover:opacity-90 transition"
-                />
-              )}
-            </Item>
-          ))}
-        </div>
-      </Gallery>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {events.map((event) => (
+          <Link
+            key={event.slug}
+            href={`/gallery/${event.slug}`}
+            className="bg-white/70 backdrop-blur-md rounded-xl shadow-lg border border-brand-purple/10 overflow-hidden hover:shadow-2xl transition block"
+          >
+            <img
+              src={event.cover}
+              alt={event.title}
+              className="w-full h-48 object-cover"
+            />
+
+            <div className="p-6">
+              <h3 className="text-2xl font-bold text-brand-purple">{event.title}</h3>
+              <p className="text-gray-600 text-sm">{event.date}</p>
+              <p className="text-gray-700 mt-3 text-sm">{event.description}</p>
+
+              <span className="mt-4 inline-block text-brand-purple font-semibold hover:text-brand-orange transition">
+                Ver evento →
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }
