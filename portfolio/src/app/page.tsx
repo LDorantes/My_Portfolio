@@ -114,7 +114,7 @@ export default function Home() {
           </p>
 
           <a
-            href="/cv/cv-leonardo.pdf"
+            href="/cv/CV-ELeonardoDoor.pdf"
             download
             className="px-10 py-4 rounded-full bg-brand-purple text-white font-semibold shadow-md hover:bg-brand-blue transition text-lg"
           >
@@ -133,7 +133,7 @@ export default function Home() {
           {/* Proyecto 1 */}
           <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl border border-brand-purple/10 shadow-lg hover:shadow-2xl transition cursor-pointer">
             <img
-              src="/projects/wedding.jpg"
+              src="/projects/wed.webp"
               className="rounded-lg mb-4 h-40 w-full object-cover"
               alt={t.project1Title}
             />
@@ -154,7 +154,7 @@ export default function Home() {
           {/* Proyecto 2 */}
           <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl border border-brand-purple/10 shadow-lg hover:shadow-2xl transition cursor-pointer">
             <img
-              src="/projects/dashboard.jpg"
+              src="/projects/actvesp.webp"
               className="rounded-lg mb-4 h-40 w-full object-cover"
               alt={t.project2Title}
             />

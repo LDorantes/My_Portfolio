@@ -16,9 +16,9 @@ export const messages = {
     home: {
       heroName: "Leonardo",
       heroLastName: "Dorantes",
-      role: "Full Stack Developer · Software Engineer · Autobiografía Digital en Construcción",
+      role: "Full Stack Developer · Software Engineer · Autobiografía Digital.",
       description:
-        "Creo en sistemas elegantes, funcionales y significativos. Esta página es mi historia, mi trabajo y mi visión — un registro vivo de quién soy y en quién me estoy convirtiendo.",
+        "Creo experiencias digitales con intención y detalle,buscando aportar precisión técnica, colaboración y una visión que impulsa siempre hacia adelante. Esta página es mi historia, mi trabajo y mi visión.",
       aboutButton: "Saber más de mí",
       contactButton: "Contacto",
 
@@ -49,9 +49,9 @@ export const messages = {
     home: {
       heroName: "Leonardo",
       heroLastName: "Dorantes",
-      role: "Full Stack Developer · Software Engineer · Digital Autobiography in Progress",
+      role: "Full Stack Developer · Software Engineer · Digital Autobiography.",
       description:
-        "I believe in elegant, functional and meaningful systems. This page is my story, my work and my vision — a living record of who I am and who I’m becoming.",
+        "I create digital experiences with intention and meticulous attention to detail, striving to deliver technical precision, foster collaboration, and maintain a vision that propels us forward. This page contains my story, my work, and my vision.",
       aboutButton: "About me",
       contactButton: "Contact",
 

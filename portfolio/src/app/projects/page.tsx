@@ -9,16 +9,16 @@ const projects = [
     description:
       "Aplicación web interactiva con animaciones, RSVP con código QR, galería y experiencia elegante para invitados.",
     tech: ["React", "TailwindCSS", "Firebase", "Framer Motion"],
-    link: "https://tuproyecto.com",
-    image: "/projects/wedding.jpg",
+    link: "https://wedding-andyleo.info/?token=",
+    image: "/projects/wed.webp",
   },
   {
     title: "Dashboard Académico",
     description:
       "Dashboard dinámico y responsivo para consulta de datos escolares, panel de administración y reportes.",
     tech: ["Next.js", "TypeScript", "Supabase", "Chart.js"],
-    link: "https://tuproyecto.com/dashboard",
-    image: "/projects/dashboard.jpg",
+    link: "https://adminactivities.jfk-technology.net/login",
+    image: "/projects/actvesp.webp",
   },
   {
     title: "Milpa App (Colaboración)",
