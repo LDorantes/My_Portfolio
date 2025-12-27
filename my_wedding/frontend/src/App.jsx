@@ -14,16 +14,21 @@ import BlessingsWall from "./components/BlessingsWall";
 import MusicPlayer from "./components/MusicPlayer";
 import Footer from "./components/Footer";
 
+import AdminDashboard from "./pages/AdminDashboard";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "./services/firebase";
-
 
 function App() {
   const [showContent, setShowContent] = useState(false);
   const [guestName, setGuestName] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token");
+    if (token === "admin") {
+      setIsAdmin(true);
+      return;
+    }
     if (!token) return;
 
     const fetchGuest = async () => {
@@ -39,6 +44,11 @@ function App() {
 
     fetchGuest();
   }, []);
+
+  // 🧠 Aquí está el cambio importante:
+  if (isAdmin) {
+    return <AdminDashboard />;
+  }
 
   return (
     <div className="scroll-smooth min-h-screen bg-white">
@@ -73,7 +83,7 @@ function App() {
             <RSVPSection />
           </section>
           <section id="gifts">
-            <DressCodeSection/>
+            <DressCodeSection />
             <GiftSection />
           </section>
           <section id="blessings-wall">
