@@ -17,11 +17,11 @@ const certificates = [
     thumbnail: "/certificates/thumbnails/github-actions.png",
   },
   {
-    title: "SQL Server",
-    issuer: "Udemy",
-    year: "2025",
-    file: "/certificates/sqlserver.pdf",
-    thumbnail: "/certificates/thumbnails/sqlserver.png",
+    title: "Constancia del diplomado de competencias intermedias",
+    issuer: "Universidad Cuauhtémoc",
+    year: "25 de septiembre del 2025",
+    file: "/certificates/2F9CAE06A002.pdf",
+    thumbnail: "/certificates/thumbnails/competencias_intermedias.png",
   },
   {
     title: "Java Completo",
