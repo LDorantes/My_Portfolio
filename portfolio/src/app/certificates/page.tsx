@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
 
 // Necesario para PDF.js en Next.js
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -24,11 +22,11 @@ const certificates = [
     thumbnail: "/certificates/thumbnails/competencias_intermedias.png",
   },
   {
-    title: "Java Completo",
-    issuer: "Udemy",
-    year: "2025",
-    file: "/certificates/thumbnails/java.png",
-    thumbnail: "/certificates/thumbnails/java.png",
+    title: "Titulo universitario de Ingeniero en software y sistemas computacionales",
+    issuer: "Universidad Cuauhtémoc",
+    year: "2026",
+    file: "/certificates/thumbnails/TL26ABR746.pdf",
+    thumbnail: "/certificates/thumbnails/titulo.png",
   },
 ];
 
